@@ -1,0 +1,28 @@
+{
+  "name": "ln-vending-cli",
+  "version": "1.0.0",
+  "description": "A CLI tool to interact with vending machine using serial",
+  "main": "cli.js",
+  "scripts": {
+    "start": "node cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karliatto/ln-vending.git"
+  },
+  "keywords": [
+    "bitcoin",
+    "lightning-network",
+    "vending"
+  ],
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/karliatto/ln-vending/issues"
+  },
+  "homepage": "https://github.com/karliatto/ln-vending#readme",
+  "dependencies": {
+    "@serialport/parser-readline": "^12.0.0",
+    "commander": "^12.1.0",
+    "serialport": "^12.0.0"
+  }
+}
