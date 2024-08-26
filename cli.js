@@ -9,7 +9,7 @@ program
     '--devicePath <value>',
     'File path of USB device',
     (value) => value,
-    '/dev/ttyACM0',
+    '/dev/ttyAMA0',
   )
   .option(
     "--baudRate <value>",
