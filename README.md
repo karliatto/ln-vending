@@ -2,6 +2,23 @@
 
 This project aims to collect set of documentation and software to integrate Bitcoin Lightning Network payments in a vending machine using MDB protocol.
 
+## Development
+
+### Prerequisities
+
+-   [NVM](https://github.com/nvm-sh/nvm)
+-   [NodeJS](https://nodejs.org/en/download/package-manager)
+
+### Getting started
+
+-   `git clone git@github.com:karliatto/ln-vending.git`
+-   `nvm install`
+-   `npm i`
+-   `sudo chown ${USER}:${USER} /dev/ttyACM0`
+-   `npm start connect`
+    Then you should be able to send text commands by typing and pressing enter.
+
+
 ## Initial configuration
 - https://docs.qibixx.com/mdb-products/mdb-pi-hat-vmc-firststeps
 
