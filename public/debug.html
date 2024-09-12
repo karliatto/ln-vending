@@ -9,16 +9,17 @@
         font-family: Arial, sans-serif;
         margin: 20px;
       }
-
       h1 {
         margin-bottom: 20px;
       }
-
+      hr {
+        border: 1px solid black;
+        width: 100%;
+      }
       #buttonContainer {
         display: flex;
         align-items: center; /* Align buttons vertically centered */
       }
-
       button {
         margin: 10px; /* Add margin around buttons */
         padding: 10px 15px;
@@ -30,11 +31,9 @@
         color: white;
         transition: background-color 0.3s;
       }
-
       button:hover {
         background-color: #0056b3; /* Darker shade on hover */
       }
-
       .wrapper {
           max-width: 300px;
           display: flex;
@@ -47,12 +46,26 @@
 
     <div class="wrapper">
       <button id="handShakeVending">Handshake with Vending machine!</button>
+      <hr />
+
       <button id="startVendingCycle">Start vending cycle</button>
-      <button id="completeVendingCycle">Complete vending cycle</button>
+
+      <hr />
 
       <label for="inputValue">Enter Amount:</label>
       <input type="text" id="inputValue" placeholder="Amount" />
+      <button id="completeVendingCycle">Complete vending cycle</button>
+
+      <hr />
+
       <button id="cancelVendingCycle">Cancel vending cycle</button>
+      <hr />
+
+      <label for="commandValue">Enter Command:</label>
+      <input type="text" id="commandValue" placeholder="C,1" />
+      <button id="command">Send Command</button>
+
+      <hr />
     </div>
     <div id="output"></div>
     <div id="qrCodeContainer"></div>

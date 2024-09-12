@@ -60,6 +60,19 @@ buttons.forEach((button) => {
         console.log("Vending cycle canceled.");
         ws.send(JSON.stringify({ type: "cancelVendingCycle" }));
         break;
+      case "command":
+        console.log("command");
+        const command = document.getElementById("commandValue").value;
+
+        console.log("command entered:", command);
+
+        ws.send(
+          JSON.stringify({
+            type: "command",
+            data: { command },
+          })
+        );
+        break;
       default:
         console.log("Unknown button clicked.");
     }
