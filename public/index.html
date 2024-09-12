@@ -28,21 +28,23 @@
       }
       .container-instructions,
       .container-payment-request,
-      .container-success {
+      .container-success,
+      .container-connecting {
           max-width: 680px;
           padding: 20px;
           text-align: center;
           display: none;
       }
-      .container-success {
+      .container-success,
+      .container-connecting {
           background-color: #ffffff;
           border-radius: 8px;
           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       }
-
       .container-instructions.visible,
       .container-payment-request.visible,
-      .container-success.visible {
+      .container-success.visible,
+      container-connecting.visible {
           display: block;
       }
       .item-details {
@@ -93,6 +95,20 @@
       <p>Your Trezor has been successfully released.</p>
       <p>Enjoy your new hardware wallet and happy HODLing!</p>
       <div class="emoji">🚀💎🙌</div>
+    </div>
+    <div class="container-connecting">
+      <div class="emoji">🔄</div>
+      <h1>Connecting</h1>
+      <p>
+        Please wait while we establish a connection to the Trezor vending
+        machine.
+      </p>
+      <p>This process may take a few moments. Thank you for your patience.</p>
+      <p>
+        If the connection is not established within a minute, please try again
+        or contact support.
+      </p>
+      <div class="emoji">⏳</div>
     </div>
 
     <script src="/all.js"></script>

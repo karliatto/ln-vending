@@ -14,13 +14,6 @@ function removeVisibleClass(className) {
 
 addVisibleClass("container-instructions");
 
-const appendMessage = (message) => {
-  const messageDiv = document.createElement("div");
-  messageDiv.className = "message";
-  messageDiv.textContent = message;
-  output.appendChild(messageDiv);
-};
-
 let pingTimeout;
 
 const ws = new WebSocket("ws://" + window.location.host);
@@ -45,17 +38,12 @@ ws.onerror = (error) => {
 ws.onopen = () => {
   console.log("open");
   heartbeat();
-  appendMessage("Connected to WebSocket server");
+  console.log("Connected to WebSocket server");
 };
-
-ws.on("ping", () => {
-  console.log("ping!!!!");
-  heartbeat();
-});
 
 ws.onmessage = (event) => {
   console.log("event", event);
-  appendMessage("Message from server: " + event.data);
+  console.log("Message from server: " + event.data);
   //   const { data } = event;
   //   try {
   //     const parsedData = JSON.parse(data);
@@ -72,6 +60,6 @@ ws.onmessage = (event) => {
 };
 
 ws.onclose = () => {
-  appendMessage("Disconnected from WebSocket server");
+  console.log("Disconnected from WebSocket server");
   clearTimeout(pingTimeout);
 };
