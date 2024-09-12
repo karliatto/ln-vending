@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MDB Debug Block</title>
+    <style>
+       body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      h1 {
+        margin-bottom: 20px;
+      }
+
+      #buttonContainer {
+        display: flex;
+        align-items: center; /* Align buttons vertically centered */
+      }
+
+      button {
+        margin: 10px; /* Add margin around buttons */
+        padding: 10px 15px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        border-radius: 5px;
+        background-color: #007bff; /* Bootstrap primary color */
+        color: white;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #0056b3; /* Darker shade on hover */
+      }
+
+      .wrapper {
+          max-width: 300px;
+          display: flex;
+          flex-direction: column;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>MDB Debug Block!</h1>
+
+    <div class="wrapper">
+      <button id="handShakeVending">Handshake with Vending machine!</button>
+      <button id="startVendingCycle">Start vending cycle</button>
+      <button id="completeVendingCycle">Complete vending cycle</button>
+
+      <label for="inputValue">Enter Amount:</label>
+      <input type="text" id="inputValue" placeholder="Amount" />
+      <button id="cancelVendingCycle">Cancel vending cycle</button>
+    </div>
+    <div id="output"></div>
+    <div id="qrCodeContainer"></div>
+
+    <script src="/debug.js"></script>
+  </body>
+</html>

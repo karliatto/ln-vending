@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vending Interface</title>
+    <style>
+      body {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+          font-family: Arial, sans-serif;
+          background-color: #f0f0f0;
+      }
+      h1 {
+          color: #333;
+          font-size: 24px;
+          margin-bottom: 20px;
+      }
+      ol {
+          list-style-position: inside;
+          text-align: left;
+      }
+      li {
+          margin-bottom: 10px;
+      }
+      .container-instructions,
+      .container-payment-request,
+      .container-success {
+          max-width: 680px;
+          padding: 20px;
+          text-align: center;
+          display: none;
+      }
+      .container-success {
+          background-color: #ffffff;
+          border-radius: 8px;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .container-instructions.visible,
+      .container-payment-request.visible,
+      .container-success.visible {
+          display: block;
+      }
+      .item-details {
+          background-color: #fff;
+          border-radius: 8px;
+          padding: 20px;
+          margin-bottom: 20px;
+      }
+      .qr-code {
+          width: 200px;
+          height: 200px;
+          background-color: #ddd;
+          margin: 0 auto;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+      }
+      .emoji {
+          font-size: 48px;
+          margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container-instructions">
+      <h1>Welcome to Trezor vending machine</h1>
+      <ol>
+        <li>Make your selection on the keyboard</li>
+        <li>Pay with Bitcoin via Lightning Network</li>
+        <li>Collect your Trezor</li>
+        <li>HODL!</li>
+      </ol>
+    </div>
+    <div class="container-payment-request">
+      <h1>Selected Item</h1>
+      <div class="item-details">
+        <p>
+          <strong>Model:</strong> <span id="item-model">Trezor Model T</span>
+        </p>
+        <p><strong>Price:</strong> <span id="item-price">$199.99</span></p>
+      </div>
+      <div class="qr-code">QR Code Placeholder</div>
+      <p>Scan the QR code to pay with Bitcoin via Lightning Network</p>
+    </div>
+    <div class="container-success">
+      <div class="emoji">🎉</div>
+      <h1>Congratulations!</h1>
+      <p>Your Trezor has been successfully released.</p>
+      <p>Enjoy your new hardware wallet and happy HODLing!</p>
+      <div class="emoji">🚀💎🙌</div>
+    </div>
+
+    <script src="/all.js"></script>
+  </body>
+</html>
