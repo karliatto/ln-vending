@@ -1,0 +1,305 @@
+> ln-vending-cli@1.0.0 start
+> node ./lib/Server.js
+port instanceof SerialPort true
+Connecting to external Websocket server
+Error opening port: Port is opening
+Example app listening on port 3000
+Serial Port Opened
+data form parser r,ACK
+Connected to external WebSocket server
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+A client has connected.
+data form parser r,ACK
+data form parser r,ACK
+message <Buffer 7b 22 74 79 70 65 22 3a 22 63 6f 6d 6d 61 6e 64 22 2c 22 64 61 74 61 22 3a 7b 22 63 6f 6d 6d 61 6e 64 22 3a 22 43 2c 30 22 7d 7d>
+parsedMessage { type: 'command', data: { command: 'C,0' } }
+type command
+data { command: 'C,0' }
+command
+In mdbClient sending command: "C,0"
+Sent: "C,0"
+data form parser c,0
+message <Buffer 7b 22 74 79 70 65 22 3a 22 63 6f 6d 6d 61 6e 64 22 2c 22 64 61 74 61 22 3a 7b 22 63 6f 6d 6d 61 6e 64 22 3a 22 43 2c 31 22 7d 7d>
+parsedMessage { type: 'command', data: { command: 'C,1' } }
+type command
+data { command: 'C,1' }
+command
+In mdbClient sending command: "C,1"
+Sent: "C,1"
+data form parser c,STATUS,INACTIVE
+data form parser c,1
+data form parser r,ACK
+data form parser c,STATUS,DISABLED
+data form parser r,ACK
+data form parser r,ACK
+data form parser c,STATUS,ENABLED
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+Disconnected from external WebSocket server
+Attempting to reconnect ...
+data form parser r,ACK
+Connecting to external Websocket server
+data form parser r,ACK
+data form parser r,ACK
+Connected to external WebSocket server
+data form parser r,ACK
+data form parser r,ACK
+message <Buffer 7b 22 74 79 70 65 22 3a 22 63 6f 6d 6d 61 6e 64 22 2c 22 64 61 74 61 22 3a 7b 22 63 6f 6d 6d 61 6e 64 22 3a 22 43 2c 53 54 41 52 54 2c 30 22 7d 7d>
+parsedMessage { type: 'command', data: { command: 'C,START,0' } }
+type command
+data { command: 'C,START,0' }
+command
+In mdbClient sending command: "C,START,0"
+Sent: "C,START,0"
+data form parser c,STATUS,IDLE,0
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser c,STATUS,VEND,15.19,17
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+message <Buffer 7b 22 74 79 70 65 22 3a 22 63 6f 6d 70 6c 65 74 65 56 65 6e 64 69 6e 67 43 79 63 6c 65 22 2c 22 64 61 74 61 22 3a 7b 22 61 6d 6f 75 6e 74 22 3a 31 35 ... 2 more bytes>
+parsedMessage { type: 'completeVendingCycle', data: { amount: 15 } }
+type completeVendingCycle
+data { amount: 15 }
+Vending cycle completed.
+Amount entered: 15
+calling completeVendingCycle in mdbClient
+amount 15
+completeRequestString C,VEND,15
+Sending over MDB C,VEND,15
+Sent: C,VEND,15
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser c,VEND,SUCCESS
+" waiting for "c,VEND,SUCCESS"
+data form parser c,STATUS,IDLE
+" waiting for "c,VEND,SUCCESS"
+data form parser c,STATUS,ENABLED
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+Disconnected from external WebSocket server
+Attempting to reconnect ...
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+Connecting to external Websocket server
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+Connected to external WebSocket server
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+message <Buffer 7b 22 74 79 70 65 22 3a 22 63 6f 6d 6d 61 6e 64 22 2c 22 64 61 74 61 22 3a 7b 22 63 6f 6d 6d 61 6e 64 22 3a 22 43 2c 30 22 7d 7d>
+parsedMessage { type: 'command', data: { command: 'C,0' } }
+type command
+data { command: 'C,0' }
+command
+In mdbClient sending command: "C,0"
+Sent: "C,0"
+data form parser c,0
+" waiting for "c,VEND,SUCCESS"
+message <Buffer 7b 22 74 79 70 65 22 3a 22 63 6f 6d 6d 61 6e 64 22 2c 22 64 61 74 61 22 3a 7b 22 63 6f 6d 6d 61 6e 64 22 3a 22 43 2c 31 22 7d 7d>
+parsedMessage { type: 'command', data: { command: 'C,1' } }
+type command
+data { command: 'C,1' }
+command
+In mdbClient sending command: "C,1"
+Sent: "C,1"
+data form parser c,STATUS,INACTIVE
+" waiting for "c,VEND,SUCCESS"E
+data form parser c,1
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser c,STATUS,DISABLED
+" waiting for "c,VEND,SUCCESS"D
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser c,STATUS,ENABLED
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+Operation completed
+Error: Timed-out while waiting for MDB response.
+Result: undefined
+error Timed-out while waiting for MDB response.
+completeVendingCycleResponse undefined
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+message <Buffer 7b 22 74 79 70 65 22 3a 22 63 6f 6d 6d 61 6e 64 22 2c 22 64 61 74 61 22 3a 7b 22 63 6f 6d 6d 61 6e 64 22 3a 22 43 2c 53 54 41 52 54 2c 30 22 7d 7d>
+parsedMessage { type: 'command', data: { command: 'C,START,0' } }
+type command
+data { command: 'C,START,0' }
+command
+In mdbClient sending command: "C,START,0"
+Sent: "C,START,0"
+data form parser c,STATUS,IDLE,0
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+Disconnected from external WebSocket server
+Attempting to reconnect ...
+data form parser r,ACK
+Connecting to external Websocket server
+Connected to external WebSocket server
+data form parser r,ACK
+data form parser c,STATUS,VEND,15.19,21
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+data form parser r,ACK
+message <Buffer 7b 22 74 79 70 65 22 3a 22 63 6f 6d 70 6c 65 74 65 56 65 6e 64 69 6e 67 43 79 63 6c 65 22 2c 22 64 61 74 61 22 3a 7b 22 61 6d 6f 75 6e 74 22 3a 31 35 ... 2 more bytes>
+parsedMessage { type: 'completeVendingCycle', data: { amount: 15 } }
+type completeVendingCycle
+data { amount: 15 }
+Vending cycle completed.
+Amount entered: 15
+calling completeVendingCycle in mdbClient
+amount 15
+completeRequestString C,VEND,15
+Sending over MDB C,VEND,15
+Sent: C,VEND,15
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser c,VEND,SUCCESS
+" waiting for "c,VEND,SUCCESS"
+data form parser c,STATUS,IDLE
+" waiting for "c,VEND,SUCCESS"
+data form parser c,STATUS,ENABLED
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+Disconnected from external WebSocket server
+Attempting to reconnect ...
+Connecting to external Websocket server
+Connected to external WebSocket server
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
+data form parser r,ACK
+" waiting for "c,VEND,SUCCESS"
