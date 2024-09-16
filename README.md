@@ -2,6 +2,8 @@
 
 This project aims to collect set of documentation and software to integrate Bitcoin Lightning Network payments in a vending machine using MDB protocol.
 
+![img](./assets/bitcoin-ln-vending.png)
+
 ## Development
 
 ### Prerequisities
