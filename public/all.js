@@ -1,3 +1,10 @@
+const appendMessage = (message) => {
+  const messageDiv = document.createElement("div");
+  messageDiv.className = "message";
+  messageDiv.textContent = message;
+  output.appendChild(messageDiv);
+};
+
 function insertQRCode(base64String, placeholderSelector) {
   const img = document.createElement("img");
   img.src = base64String;
@@ -64,13 +71,11 @@ ws.onerror = (error) => {
 };
 
 ws.onopen = () => {
-  console.log("open");
-  console.log("Connected to WebSocket server");
+  appendMessage("Connected to WebSocket server");
 };
 
 ws.onmessage = (event) => {
-  console.log("event", event);
-  console.log("Message from server: " + event.data);
+  appendMessage("Message from server: " + event.data);
   const { data } = event;
   try {
     const parsedData = JSON.parse(data);
@@ -90,6 +95,8 @@ ws.onmessage = (event) => {
         initializeUi();
         // TODO: make it a config.
       }, 10 * 1000);
+    } else if (parsedData.type === "debug") {
+      appendMessage(parsedData.data);
     }
   } catch (error) {
     console.error(error);
@@ -97,6 +104,24 @@ ws.onmessage = (event) => {
 };
 
 ws.onclose = () => {
-  console.log("Disconnected from WebSocket server");
-  clearTimeout(pingTimeout);
+  appendMessage("Disconnected from WebSocket server");
 };
+
+const buttons = document.querySelectorAll("button");
+buttons.forEach((button) => {
+  button.addEventListener("click", (event) => {
+    switch (event.target.id) {
+      case "command":
+        const command = document.getElementById("commandValue").value;
+        ws.send(
+          JSON.stringify({
+            type: "command",
+            data: { command },
+          })
+        );
+        break;
+      default:
+        console.log("Unknown button clicked.");
+    }
+  });
+});
