@@ -1,35 +1,63 @@
-function addVisibleClass(className) {
+function insertQRCode(base64String, placeholderSelector) {
+  const img = document.createElement("img");
+  img.src = base64String;
+
+  const qrCodePlaceholder = document.querySelector(placeholderSelector);
+
+  qrCodePlaceholder.innerHTML = "";
+  qrCodePlaceholder.appendChild(img);
+}
+
+function toggleVisibleClass(className, isVisible) {
   const element = document.querySelector(`.${className}`);
   if (element) {
-    element.classList.add("visible");
+    if (isVisible) {
+      element.classList.add("visible");
+    } else {
+      element.classList.remove("visible");
+    }
   }
 }
 
-function removeVisibleClass(className) {
-  const element = document.querySelector(`.${className}`);
-  if (element) {
-    element.classList.remove("visible");
-  }
-}
+const initializeUi = () => {
+  document.getElementById("item-price-fiat").textContent = "-";
+  document.getElementById("item-price-sat").textContent = "-";
+  document.getElementById("item-model").textContent = "-";
+  toggleVisibleClass("container-instructions", true);
+  toggleVisibleClass("container-payment-request", false);
+  toggleVisibleClass("container-success", false);
+  toggleVisibleClass("container-connecting", false);
+};
 
-addVisibleClass("container-instructions");
+const setScreenPaymentRequest = (qrCodeBase64, fiatAmount, sat, itemNumber) => {
+  document.getElementById("item-price-fiat").textContent = fiatAmount;
+  document.getElementById("item-price-sat").textContent = sat;
+  document.getElementById("item-model").textContent = itemNumber;
+  insertQRCode(qrCodeBase64, ".qr-code");
 
-let pingTimeout;
+  toggleVisibleClass("container-payment-request", true);
+  toggleVisibleClass("container-instructions", false);
+  toggleVisibleClass("container-success", false);
+  toggleVisibleClass("container-connecting", false);
+};
+
+const setScreenSuccess = () => {
+  toggleVisibleClass("container-success", true);
+  toggleVisibleClass("container-instructions", false);
+  toggleVisibleClass("container-payment-request", false);
+  toggleVisibleClass("container-connecting", false);
+};
+
+const setScreenConnecting = () => {
+  toggleVisibleClass("container-connecting", true);
+  toggleVisibleClass("container-success", false);
+  toggleVisibleClass("container-instructions", false);
+  toggleVisibleClass("container-payment-request", false);
+};
+
+initializeUi();
 
 const ws = new WebSocket("ws://" + window.location.host);
-
-// `heartbeat` checks if connection is alive, otherwise it terminates it.
-const heartbeat = () => {
-  clearTimeout(pingTimeout);
-
-  // Use `WebSocket#terminate()`, which immediately destroys the connection,
-  // instead of `WebSocket#close()`, which waits for the close timer.
-  // Delay should be equal to the interval at which your server
-  // sends out pings plus a conservative assumption of the latency.
-  pingTimeout = setTimeout(() => {
-    // ws.terminate();
-  }, 30 * 1000);
-};
 
 ws.onerror = (error) => {
   console.error(error);
@@ -37,26 +65,35 @@ ws.onerror = (error) => {
 
 ws.onopen = () => {
   console.log("open");
-  heartbeat();
   console.log("Connected to WebSocket server");
 };
 
 ws.onmessage = (event) => {
   console.log("event", event);
   console.log("Message from server: " + event.data);
-  //   const { data } = event;
-  //   try {
-  //     const parsedData = JSON.parse(data);
-  //     if (parsedData.type === "lnurl") {
-  //       const qrCodeContainer = document.getElementById("qrCodeContainer");
-  //       qrCodeContainer.innerHTML = ""; // Clear previous QR code.
-  //       const qrCodeElement = createQR(parsedData.data.lnurl);
-  //       // Append the QR code to the selected element
-  //       qrCodeContainer.appendChild(qrCodeElement);
-  //     }
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
+  const { data } = event;
+  try {
+    const parsedData = JSON.parse(data);
+    if (parsedData.type === "statusVEND") {
+      const { fiatAmount, itemNumber, qrCodeBase64, sat, msat } =
+        parsedData.data;
+      console.log("fiatAmount", fiatAmount);
+      console.log("itemNumber", itemNumber);
+      console.log("sat", sat);
+      console.log("msat", msat);
+      setScreenPaymentRequest(qrCodeBase64, fiatAmount, sat, itemNumber);
+    } else if (parsedData.type === "successVEND") {
+      console.log("success!!");
+      setScreenSuccess();
+      // After some time clear success screen and go to initial screen.
+      setTimeout(() => {
+        initializeUi();
+        // TODO: make it a config.
+      }, 10 * 1000);
+    }
+  } catch (error) {
+    console.error(error);
+  }
 };
 
 ws.onclose = () => {

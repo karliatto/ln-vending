@@ -40,3 +40,20 @@ sudo minicom -D /dev/ttyAMA0 -b 115200
 Then you have to activate the local echo on minicom settings: CTRL+A+Z to see the commands you are sending.
 
 And once the connection has been established you can use [api-cashless-slave](https://docs.qibixx.com/mdb-products/api-cashless-slave) to communicate with the machine.
+
+## Virtual device for testing
+
+You can create a virtual device using `socat` like:
+
+```bash
+$ socat -d -d pty,raw,echo=0 pty,raw,echo=0
+2024/09/15 14:16:28 socat[35355] N PTY is /dev/pts/4
+2024/09/15 14:16:28 socat[35355] N PTY is /dev/pts/5
+2024/09/15 14:16:28 socat[35355] N starting data transfer loop with FDs [5,5] and [7,7]
+```
+
+Depending on the response you have to connect to device `/dev/pts/4` and send messages to `/dev/pts/5` like:
+
+```bash
+$ echo "c,STATUS,VEND,99.20,18" > /dev/pts/5
+```
