@@ -124,8 +124,16 @@
         <div class="emoji">⏳</div>
       </div>
       <div class="container-debugger">
+        <button id="disableCommand">
+          Disable the cashless peripheral (C,0)
+        </button>
+        <button id="enablePeripheralCommand">
+          Enable the cashless peripheral (C,1)
+        </button>
+        <button id="startCommand">Start cycle (C,START,0)</button>
+        <button id="cancelCommand">Stop (C,STOP)</button>
         <label for="commandValue">Enter Command:</label>
-        <input type="text" id="commandValue" placeholder="C,1" />
+        <input type="text" id="commandValue" />
         <button id="command">Send Command</button>
         <div id="output"></div>
       </div>

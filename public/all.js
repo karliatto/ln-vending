@@ -111,6 +111,42 @@ const buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
     switch (event.target.id) {
+      case "cancelCommand":
+        console.log("disableCommand");
+        ws.send(
+          JSON.stringify({
+            type: "command",
+            data: { command: "C,STOP" },
+          })
+        );
+        break;
+      case "disableCommand":
+        console.log("disableCommand");
+        ws.send(
+          JSON.stringify({
+            type: "command",
+            data: { command: "C,0" },
+          })
+        );
+        break;
+      case "enablePeripheralCommand":
+        console.log("enablePeripheralCommand");
+        ws.send(
+          JSON.stringify({
+            type: "command",
+            data: { command: "C,1" },
+          })
+        );
+        break;
+      case "startCommand":
+        console.log("startCommand");
+        ws.send(
+          JSON.stringify({
+            type: "command",
+            data: { command: "C,START,0" },
+          })
+        );
+        break;
       case "command":
         const command = document.getElementById("commandValue").value;
         ws.send(

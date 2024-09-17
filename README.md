@@ -56,6 +56,13 @@ $ socat -d -d pty,raw,echo=0 pty,raw,echo=0
 
 Depending on the response you have to connect to device `/dev/pts/4` and send messages to `/dev/pts/5` like:
 
+Configure your .env file with:
+
+```
+....
+LN_VENDING_DEVICE_PATH=/dev/pts/4
+```
+
 ```bash
 $ echo "c,STATUS,VEND,99.20,18" > /dev/pts/5
 ```
