@@ -32,7 +32,7 @@ ws.onmessage = (event) => {
       setScreenSuccess();
       // After some time clear success screen and go to initial screen.
       setTimeout(() => {
-        initializeUi();
+        setScreenInstructions();
         // TODO: make it a config.
       }, 10 * 1000);
     } else if (parsedData.type === "debug") {
