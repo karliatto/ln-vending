@@ -45,6 +45,7 @@ ws.onmessage = (event) => {
 
 ws.onclose = () => {
   appendMessage("Disconnected from WebSocket server");
+  // TODO: we should handle disconnection, PLEASE!!!
 };
 
 const requestInitializeVendCycle = () => {
@@ -85,9 +86,10 @@ function toggleVisibleClass(className, isVisible) {
 }
 
 const setScreenInstructions = () => {
-  setTimeout(() => {
-    requestInitializeVendCycle();
-  }, 1000);
+  // TODO: just for testing different flow.
+  // setTimeout(() => {
+  //   requestInitializeVendCycle();
+  // }, 1000);
   document.getElementById("item-price-fiat").textContent = "-";
   document.getElementById("item-price-sat").textContent = "-";
   document.getElementById("item-model").textContent = "-";
