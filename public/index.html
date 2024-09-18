@@ -10,37 +10,39 @@
           justify-content: center;
           align-items: center;
           height: 100vh;
-          margin: 0;
           font-family: Arial, sans-serif;
           background-color: #f0f0f0;
       }
+      
       h1 {
           color: #333;
-          font-size: 24px;
+          font-size: 36px;
           margin-bottom: 20px;
       }
+      p{
+        font-size: 28px;
+      }
       ol {
-          list-style-position: inside;
-          text-align: left;
+        list-style-position: inside;
+        text-align: left;
       }
       li {
-          margin-bottom: 10px;
+        margin-bottom: 20px;
+        font-size: 28px;
       }
       .container-instructions,
       .container-payment-request,
       .container-success,
       .container-connecting,
       .container-debugger {
-          max-width: 680px;
-          padding: 20px;
+        max-height: 100vh;
+          width: 100%;
           text-align: center;
           display: none;
       }
       .container-success,
       .container-connecting {
-          background-color: #ffffff;
           border-radius: 8px;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       }
       .container-instructions.visible,
       .container-payment-request.visible,
@@ -48,15 +50,28 @@
       .container-connecting.visible {
           display: block;
       }
+      .container-instructions.visible{
+        margin-top: -130px;
+      }
+      .container-instructions h1{
+        margin-bottom: 35px;
+      }
+
+      .container-payment-request.visible p{
+font-size: large;
+      }
+
       .item-details {
           background-color: #fff;
           border-radius: 8px;
-          padding: 20px;
+          padding: 5px;
           margin-bottom: 20px;
+          font-size: larger;
       }
+
       .qr-code {
-          width: 200px;
-          height: 200px;
+          width: 270px;
+          height: 270px;
           background-color: #ddd;
           margin: 0 auto;
           display: flex;
@@ -64,13 +79,20 @@
           align-items: center;
       }
       .qr-code img {
-          width: 200px;
-          height: 200px;
+          width: 270px;
+          height: 270px;
       }
       .emoji {
-        width: 48px;
-        height: 48px;
+        width: 100px;
+        height: 100px;
         margin-bottom: 20px;
+        margin-top: 20px;
+      }
+
+      .ln{
+        position: absolute  ;
+        right: 70px;
+        bottom: 40px;
       }
       .container-debugger {
           max-width: 600px;
@@ -83,12 +105,11 @@
           background-color: #f44336;
           color: white;
           border: none;
-          padding: 10px 20px;
+          padding: 15px 25px;
           text-align: center;
           text-decoration: none;
           display: inline-block;
-          font-size: 16px;
-          margin-top: 20px;
+          font-size: 24px;
           cursor: pointer;
           border-radius: 5px;
           transition: background-color 0.3s;
@@ -97,7 +118,7 @@
   </head>
   <body>
     <div class="container-wrapper">
-      <div class="container-instructions">
+      <div class="container-instructions visible">
         <h1>Welcome to Trezor vending machine</h1>
         <ol>
           <li>Make your selection on the keyboard</li>
@@ -105,6 +126,7 @@
           <li>Collect your Trezor</li>
           <li>HODL!</li>
         </ol>
+        <img  class="ln" src="./assets/ln.png" alt="Lightning network" />
       </div>
       <div class="container-payment-request">
         <h1>Selected Item</h1>
@@ -120,14 +142,14 @@
         <button class="cancel-button" id="cancelPaymentRequest">Cancel</button>
       </div>
       <div class="container-success">
-        <img src="./assets/tada.png" alt="Party popper" class="emoji" />
+        <img src="./assets/tada.png" alt="Party popper" class="emoji"/>
         <h1>Congratulations!</h1>
         <p>Your Trezor has been successfully released.</p>
         <p>Enjoy your new hardware wallet and happy HODLing!</p>
         <div>
-          <img src="./assets/rocket.png" alt="Rocket" class="emoji" />
-          <img src="./assets/gem.png" alt="Gem stone" class="emoji" />
-          <img src="./assets/hands.png" alt="Raised hands" class="emoji" />
+          <img src="./assets/rocket.png" alt="Rocket" class="emoji"/>
+          <img src="./assets/gem.png" alt="Gem stone"  class="emoji"/>
+          <img src="./assets/hands.png" alt="Raised hands" class="emoji"/>
         </div>
       </div>
       <div class="container-connecting">
