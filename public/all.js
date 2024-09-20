@@ -1,4 +1,12 @@
-const ws = new WebSocket("ws://" + window.location.host);
+const wsUrl = "ws://" + window.location.host;
+let ws;
+
+// Time in milliseconds to wait before trying to reconnect
+let reconnectInterval = 1000;
+// After this time in instruction screen navigate automatically to start screen.
+const timeoutTimeInstructionScreen = 5 * 60 * 1000; // 5 minutes.
+// After this time in success screen navigate automatically to start screen.
+const timeoutTimeSuccessScreen = 10 * 1000; // 10 seconds.
 
 let itWasOnceConnected = false;
 let currentScreen;
@@ -14,51 +22,61 @@ const SCREENS = {
 const classNames = Object.values(SCREENS).map(
   (screenName) => `container-${screenName}`,
 );
+const connectWebSocket = () => {
+  ws = new WebSocket(wsUrl);
 
-ws.onerror = (error) => {
-  console.error(error);
-};
-
-ws.onopen = () => {
-  appendMessage("Connected to WebSocket server");
-  if (!itWasOnceConnected) {
-    itWasOnceConnected = true;
-    setScreenStart();
-  }
-};
-
-ws.onmessage = (event) => {
-  appendMessage("Message from server: " + event.data);
-  const { data } = event;
-  try {
-    const parsedData = JSON.parse(data);
-    if (parsedData.type === "statusVEND") {
-      const { fiatAmount, itemNumber, qrCodeBase64, sat, msat } =
-        parsedData.data;
-      console.log("fiatAmount", fiatAmount);
-      console.log("itemNumber", itemNumber);
-      console.log("sat", sat);
-      console.log("msat", msat);
-      setScreenPaymentRequest(qrCodeBase64, fiatAmount, sat, itemNumber);
-    } else if (parsedData.type === "successVEND") {
-      console.log("success!!");
-      setScreenSuccess();
-      // After some time clear success screen and go to initial screen.
-      setTimeout(() => {
-        setScreenStart();
-        // TODO: make it a config.
-      }, 10 * 1000);
-    } else if (parsedData.type === "debug") {
-      appendMessage(parsedData.data);
-    }
-  } catch (error) {
+  ws.onerror = (error) => {
     console.error(error);
-  }
+  };
+
+  ws.onopen = () => {
+    appendMessage("Connected to WebSocket server");
+    if (!itWasOnceConnected) {
+      itWasOnceConnected = true;
+      setScreenStart();
+    }
+  };
+
+  ws.onmessage = (event) => {
+    appendMessage("Message from server: " + event.data);
+    const { data } = event;
+    try {
+      const parsedData = JSON.parse(data);
+      if (parsedData.type === "statusVEND") {
+        const { fiatAmount, itemNumber, qrCodeBase64, sat, msat } =
+          parsedData.data;
+        console.log("fiatAmount", fiatAmount);
+        console.log("itemNumber", itemNumber);
+        console.log("sat", sat);
+        console.log("msat", msat);
+        setScreenPaymentRequest(qrCodeBase64, fiatAmount, sat, itemNumber);
+      } else if (parsedData.type === "successVEND") {
+        console.log("success!!");
+        setScreenSuccess();
+        // After some time clear success screen and go to initial screen.
+        setTimeout(() => {
+          setScreenStart();
+        }, timeoutTimeSuccessScreen);
+      } else if (parsedData.type === "debug") {
+        appendMessage(parsedData.data);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  ws.onclose = () => {
+    appendMessage(
+      "Disconnected from WebSocket server. Attempting to reconnect...",
+    );
+    setTimeout(() => {
+      connectWebSocket(); // Attempt to reconnect
+    }, reconnectInterval);
+  };
 };
 
-ws.onclose = () => {
-  appendMessage("Disconnected from WebSocket server");
-};
+// Call the function to connect to the WebSocket server
+connectWebSocket();
 
 const requestInitializeVendCycle = () => {
   ws.send(
@@ -103,9 +121,28 @@ const setVisibleClass = (visibleClassName) => {
   });
 };
 
+let timeout;
 const setCurrentScreen = (newScreen) => {
+  if (timeout) {
+    clearTimeout(timeout);
+  }
   currentScreen = newScreen;
   console.log("Changed screen to:", currentScreen);
+  switch (newScreen) {
+    case SCREENS.INSTRUCTIONS:
+      timeout = setTimeout(() => {
+        // If user does not select item in instructions screen after some time,
+        // we go to start again.
+        ws.send(
+          JSON.stringify({
+            type: "command",
+            data: { command: "C,STOP" },
+          }),
+        );
+        setScreenStart();
+      }, timeoutTimeInstructionScreen);
+      break;
+  }
 };
 
 const setScreenStart = () => {
