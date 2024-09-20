@@ -27,4 +27,4 @@ jobs:
         run: npm install
 
       - name: Verify code format
-        run: npm format:verify
+        run: npm run format:verify
