@@ -1,6 +1,19 @@
 const ws = new WebSocket("ws://" + window.location.host);
 
 let itWasOnceConnected = false;
+let currentScreen;
+
+const SCREENS = {
+  START: "start",
+  INSTRUCTIONS: "instructions",
+  PAYMENT_REQUEST: "payment-request",
+  SUCCESS: "success",
+  CONNECTING: "connecting",
+};
+
+const classNames = Object.values(SCREENS).map(
+  (screenName) => `container-${screenName}`
+);
 
 ws.onerror = (error) => {
   console.error(error);
@@ -10,7 +23,7 @@ ws.onopen = () => {
   appendMessage("Connected to WebSocket server");
   if (!itWasOnceConnected) {
     itWasOnceConnected = true;
-    setScreenInstructions();
+    setScreenStart();
   }
 };
 
@@ -32,7 +45,7 @@ ws.onmessage = (event) => {
       setScreenSuccess();
       // After some time clear success screen and go to initial screen.
       setTimeout(() => {
-        setScreenInstructions();
+        setScreenStart();
         // TODO: make it a config.
       }, 10 * 1000);
     } else if (parsedData.type === "debug") {
@@ -84,43 +97,48 @@ function toggleVisibleClass(className, isVisible) {
   }
 }
 
+const setVisibleClass = (visibleClassName) => {
+  classNames.forEach((className) => {
+    toggleVisibleClass(className, className === visibleClassName);
+  });
+};
+
+const setCurrentScreen = (newScreen) => {
+  currentScreen = newScreen;
+  console.log("Changed screen to:", currentScreen);
+};
+
+const setScreenStart = () => {
+  setCurrentScreen(SCREENS.START);
+  setVisibleClass("container-start");
+};
+
 const setScreenInstructions = () => {
-  setTimeout(() => {
-    requestInitializeVendCycle();
-  }, 1000);
+  setCurrentScreen(SCREENS.INSTRUCTIONS);
   document.getElementById("item-price-fiat").textContent = "-";
   document.getElementById("item-price-sat").textContent = "-";
   document.getElementById("item-model").textContent = "-";
-  toggleVisibleClass("container-instructions", true);
-  toggleVisibleClass("container-payment-request", false);
-  toggleVisibleClass("container-success", false);
-  toggleVisibleClass("container-connecting", false);
+  setVisibleClass("container-instructions");
 };
 
 const setScreenPaymentRequest = (qrCodeBase64, fiatAmount, sat, itemNumber) => {
+  setCurrentScreen(SCREENS.PAYMENT_REQUEST);
   document.getElementById("item-price-fiat").textContent = fiatAmount;
   document.getElementById("item-price-sat").textContent = sat;
   document.getElementById("item-model").textContent = itemNumber;
   insertQRCode(qrCodeBase64, ".qr-code");
 
-  toggleVisibleClass("container-payment-request", true);
-  toggleVisibleClass("container-instructions", false);
-  toggleVisibleClass("container-success", false);
-  toggleVisibleClass("container-connecting", false);
+  setVisibleClass("container-payment-request");
 };
 
 const setScreenSuccess = () => {
-  toggleVisibleClass("container-success", true);
-  toggleVisibleClass("container-instructions", false);
-  toggleVisibleClass("container-payment-request", false);
-  toggleVisibleClass("container-connecting", false);
+  setCurrentScreen(SCREENS.SUCCESS);
+  setVisibleClass("container-success");
 };
 
 const setScreenConnecting = () => {
-  toggleVisibleClass("container-connecting", true);
-  toggleVisibleClass("container-success", false);
-  toggleVisibleClass("container-instructions", false);
-  toggleVisibleClass("container-payment-request", false);
+  setCurrentScreen(SCREENS.CONNECTING);
+  setVisibleClass("container-connecting");
 };
 
 setScreenConnecting();
@@ -128,7 +146,17 @@ setScreenConnecting();
 const buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
   button.addEventListener("click", (event) => {
+    console.log("event.target.id", event.target.id);
     switch (event.target.id) {
+      case "startButton":
+        ws.send(
+          JSON.stringify({
+            type: "command",
+            data: { command: "C,START,0" },
+          })
+        );
+        setScreenInstructions();
+        break;
       case "cancelPaymentRequest":
         console.log("cancelPaymentRequest");
         ws.send(
@@ -137,7 +165,7 @@ buttons.forEach((button) => {
             data: { command: "C,STOP" },
           })
         );
-        setScreenInstructions();
+        setScreenStart();
         break;
       case "cancelCommand":
         console.log("cancelCommand");
