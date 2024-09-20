@@ -5,7 +5,9 @@
   "main": "cli.js",
   "scripts": {
     "start": "node ./lib/Server.js",
-    "connect": "node cli.js connect"
+    "connect": "node cli.js connect",
+    "format": "prettier . --write",
+    "format:verify": "prettier --check \"**/*.{js,md,html,json}\""
   },
   "repository": {
     "type": "git",
@@ -29,5 +31,8 @@
     "qrcode": "^1.5.4",
     "serialport": "^12.0.0",
     "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "prettier": "3.3.3"
   }
 }

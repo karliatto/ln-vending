@@ -9,13 +9,13 @@ program
     "--devicePath <value>",
     "File path of USB device",
     (value) => value,
-    "/dev/ttyAMA0"
+    "/dev/ttyAMA0",
   )
   .option(
     "--baudRate <value>",
     "The baud rate used for serial communication with USB device",
     (value) => value,
-    115200
+    115200,
   )
   .action((options) => {
     console.log("options", options);

@@ -53,7 +53,7 @@ buttons.forEach((button) => {
           JSON.stringify({
             type: "completeVendingCycle",
             data: { amount: numericAmount },
-          })
+          }),
         );
         break;
       case "cancelVendingCycle":
@@ -70,7 +70,7 @@ buttons.forEach((button) => {
           JSON.stringify({
             type: "command",
             data: { command },
-          })
+          }),
         );
         break;
       default:
