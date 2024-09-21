@@ -43,13 +43,18 @@ const connectWebSocket = () => {
     try {
       const parsedData = JSON.parse(data);
       if (parsedData.type === "statusVEND") {
-        const { fiatAmount, itemNumber, qrCodeBase64, sat, msat } =
+        const { fiatAmount, itemNumber, qrCodeBase64, sat, satDisplay, msat } =
           parsedData.data;
         console.log("fiatAmount", fiatAmount);
         console.log("itemNumber", itemNumber);
         console.log("sat", sat);
         console.log("msat", msat);
-        setScreenPaymentRequest(qrCodeBase64, fiatAmount, sat, itemNumber);
+        setScreenPaymentRequest(
+          qrCodeBase64,
+          fiatAmount,
+          satDisplay,
+          itemNumber,
+        );
       } else if (parsedData.type === "successVEND") {
         console.log("success!!");
         setScreenSuccess();
