@@ -22,6 +22,19 @@ const SCREENS = {
 const classNames = Object.values(SCREENS).map(
   (screenName) => `container-${screenName}`,
 );
+
+function sendCommand(ws, command) {
+  return new Promise((resolve) => {
+    ws.send(
+      JSON.stringify({
+        type: "command",
+        data: { command },
+      }),
+    );
+    resolve();
+  });
+}
+
 const connectWebSocket = () => {
   ws = new WebSocket(wsUrl);
 
@@ -185,18 +198,28 @@ const setScreenConnecting = () => {
 
 setScreenConnecting();
 
+const setStartLoading = (isLoading) => {
+  document.getElementById("startButton").textContent = isLoading
+    ? "Loading ..."
+    : "Start";
+  document.getElementById("startButton").style.backgroundColor = isLoading
+    ? "#ccc"
+    : "rgb(15 97 72)";
+  document.getElementById("startButton").disabled = isLoading;
+};
+
 const buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
-  button.addEventListener("click", (event) => {
+  button.addEventListener("click", async (event) => {
     console.log("event.target.id", event.target.id);
     switch (event.target.id) {
       case "startButton":
-        ws.send(
-          JSON.stringify({
-            type: "command",
-            data: { command: "C,START,0" },
-          }),
-        );
+        setStartLoading(true);
+        await sendCommand(ws, "C,STOP");
+        await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
+        await sendCommand(ws, "C,START,0");
+        await new Promise((resolve) => setTimeout(resolve, 500));
+        setStartLoading(false);
         setScreenInstructions();
         break;
       case "cancelPaymentRequest":
