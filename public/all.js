@@ -77,6 +77,7 @@ const connectWebSocket = () => {
         await new Promise((resolve) =>
           setTimeout(resolve, timeoutTimeSuccessScreen)
         );
+        setScreenStart();
       } else if (parsedData.type === "debug") {
         appendMessage(parsedData.data);
       }
