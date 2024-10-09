@@ -49,7 +49,8 @@
       .container-payment-request.visible,
       .container-success.visible,
       .container-connecting.visible,
-      .container-start.visible {
+      .container-start.visible,
+      .container-debugger.visible, {
         display: block;
       }
       .container-instructions.visible {
@@ -196,7 +197,7 @@
         </p>
         <img src="./assets/hourglass.png" alt="Hourglass" class="emoji" />
       </div>
-      <div class="container-debugger">
+      <div class="container-debugger visible">
         <button id="disableCommand">
           Disable the cashless peripheral (C,0)
         </button>
