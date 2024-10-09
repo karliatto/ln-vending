@@ -238,7 +238,7 @@ buttons.forEach((button) => {
             data: { command: "C,SETCONF,mdb-always-idle=1" },
           })
         );
-
+        break;
       case "cancelCommand":
         console.log("cancelCommand");
         ws.send(
