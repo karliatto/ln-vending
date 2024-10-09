@@ -96,15 +96,6 @@ const connectWebSocket = () => {
 // Call the function to connect to the WebSocket server
 connectWebSocket();
 
-const requestInitializeVendCycle = () => {
-  ws.send(
-    JSON.stringify({
-      type: "command",
-      data: { command: "C,START,0" },
-    }),
-  );
-};
-
 const appendMessage = (message) => {
   const messageDiv = document.createElement("div");
   messageDiv.className = "message";
@@ -217,13 +208,13 @@ buttons.forEach((button) => {
       case "startButton":
         setStartLoading(true);
         // TODO: commenting just for dev
-        await sendCommand(ws, "C,0");
-        await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
-        await sendCommand(ws, "C,1");
-        await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
-        await sendCommand(ws, "C,STOP");
-        await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
-        await sendCommand(ws, "C,START,0");
+        // await sendCommand(ws, "C,0");
+        // await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
+        // await sendCommand(ws, "C,1");
+        // await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
+        // await sendCommand(ws, "C,STOP");
+        // await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
+        // await sendCommand(ws, "C,START,0");
         await new Promise((resolve) => setTimeout(resolve, 500));
         setStartLoading(false);
         setScreenInstructions();
@@ -239,6 +230,15 @@ buttons.forEach((button) => {
         // );
         setScreenStart();
         break;
+      case "":
+        console.log("C,SETCONF,mdb-always-idle=0");
+        ws.send(
+          JSON.stringify({
+            type: "command",
+            data: { command: "C,SETCONF,mdb-always-idle=1" },
+          }),
+        );
+
       case "cancelCommand":
         console.log("cancelCommand");
         ws.send(
