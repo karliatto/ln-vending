@@ -216,9 +216,13 @@ buttons.forEach((button) => {
       case "startButton":
         setStartLoading(true);
         // TODO: commenting just for dev
-        // await sendCommand(ws, "C,STOP");
-        // await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
-        // await sendCommand(ws, "C,START,0");
+        await sendCommand(ws, "C,0");
+        await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
+        await sendCommand(ws, "C,1");
+        await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
+        await sendCommand(ws, "C,STOP");
+        await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
+        await sendCommand(ws, "C,START,0");
         await new Promise((resolve) => setTimeout(resolve, 500));
         setStartLoading(false);
         setScreenInstructions();
