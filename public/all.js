@@ -215,9 +215,10 @@ buttons.forEach((button) => {
     switch (event.target.id) {
       case "startButton":
         setStartLoading(true);
-        await sendCommand(ws, "C,STOP");
-        await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
-        await sendCommand(ws, "C,START,0");
+        // TODO: commenting just for dev
+        // await sendCommand(ws, "C,STOP");
+        // await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
+        // await sendCommand(ws, "C,START,0");
         await new Promise((resolve) => setTimeout(resolve, 500));
         setStartLoading(false);
         setScreenInstructions();
