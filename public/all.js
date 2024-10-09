@@ -50,7 +50,7 @@ const connectWebSocket = () => {
     }
   };
 
-  ws.onmessage = (event) => {
+  ws.onmessage = async (event) => {
     appendMessage("Message from server: " + event.data);
     const { data } = event;
     try {
@@ -72,9 +72,11 @@ const connectWebSocket = () => {
         console.log("success!!");
         setScreenSuccess();
         // After some time clear success screen and go to initial screen.
-        setTimeout(() => {
-          setScreenStart();
-        }, timeoutTimeSuccessScreen);
+        await new Promise((resolve) => setTimeout(resolve, 3 * 1000));
+        await sendCommand(ws, "C,0");
+        await new Promise((resolve) =>
+          setTimeout(resolve, timeoutTimeSuccessScreen)
+        );
       } else if (parsedData.type === "debug") {
         appendMessage(parsedData.data);
       }
