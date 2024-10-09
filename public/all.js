@@ -20,7 +20,7 @@ const SCREENS = {
 };
 
 const classNames = Object.values(SCREENS).map(
-  (screenName) => `container-${screenName}`
+  (screenName) => `container-${screenName}`,
 );
 
 function sendCommand(ws, command) {
@@ -29,7 +29,7 @@ function sendCommand(ws, command) {
       JSON.stringify({
         type: "command",
         data: { command },
-      })
+      }),
     );
     resolve();
   });
@@ -66,7 +66,7 @@ const connectWebSocket = () => {
           qrCodeBase64,
           fiatAmount,
           satDisplay,
-          itemNumber
+          itemNumber,
         );
       } else if (parsedData.type === "successVEND") {
         console.log("success!!");
@@ -85,7 +85,7 @@ const connectWebSocket = () => {
 
   ws.onclose = () => {
     appendMessage(
-      "Disconnected from WebSocket server. Attempting to reconnect..."
+      "Disconnected from WebSocket server. Attempting to reconnect...",
     );
     setTimeout(() => {
       connectWebSocket(); // Attempt to reconnect
@@ -101,7 +101,7 @@ const requestInitializeVendCycle = () => {
     JSON.stringify({
       type: "command",
       data: { command: "C,START,0" },
-    })
+    }),
   );
 };
 
@@ -245,7 +245,7 @@ buttons.forEach((button) => {
           JSON.stringify({
             type: "command",
             data: { command: "C,STOP" },
-          })
+          }),
         );
         break;
       case "disableCommand":
@@ -254,7 +254,7 @@ buttons.forEach((button) => {
           JSON.stringify({
             type: "command",
             data: { command: "C,0" },
-          })
+          }),
         );
         break;
       case "enablePeripheralCommand":
@@ -263,7 +263,7 @@ buttons.forEach((button) => {
           JSON.stringify({
             type: "command",
             data: { command: "C,1" },
-          })
+          }),
         );
         break;
       case "startCommand":
@@ -272,7 +272,7 @@ buttons.forEach((button) => {
           JSON.stringify({
             type: "command",
             data: { command: "C,START,0" },
-          })
+          }),
         );
         break;
       case "command":
@@ -282,7 +282,7 @@ buttons.forEach((button) => {
           JSON.stringify({
             type: "command",
             data: { command },
-          })
+          }),
         );
         break;
       default:
