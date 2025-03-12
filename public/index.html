@@ -49,9 +49,13 @@
       .container-payment-request.visible,
       .container-success.visible,
       .container-connecting.visible,
-      .container-start.visible,
-      .container-debugger.visible {
+      .container-start.visible {
         display: block;
+      }
+      .container-debugger.visible {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
       }
       .container-instructions.visible {
         margin-top: -130px;
@@ -116,7 +120,8 @@
         padding: 10px;
       }
       .cancel-button,
-      .start-button {
+      .start-button,
+      .debug-button {
         background-color: #f44336;
         color: white;
         border: none;
@@ -134,6 +139,10 @@
         padding: 60px 120px;
         font-size: 36px;
         border-radius: 10px;
+      }
+      .debug-button {
+        background-color: #ccc;
+        color:#f44336;
       }
     </style>
   </head>
@@ -198,18 +207,19 @@
         <img src="./assets/hourglass.png" alt="Hourglass" class="emoji" />
       </div>
       <div class="container-debugger visible">
-        <button id="disableCommand">
+        <button class="debug-button" id="disableCommand">
           Disable the cashless peripheral (C,0)
         </button>
-        <button id="enablePeripheralCommand">
+        <button class="debug-button" id="enablePeripheralCommand">
           Enable the cashless peripheral (C,1)
         </button>
-        <button id="startCommand">Start cycle (C,START,0)</button>
-        <button id="cancelCommand">Stop (C,STOP)</button>
-        <button id="mdbAlwaysIdle">Conf: mdb-always-idle</button>
+        <button class="debug-button" id="startCommand">Start cycle (C,START,0)</button>
+        <button class="debug-button" id="cancelCommand">Stop (C,STOP)</button>
+        <button class="debug-button" id="enableSniff">Sniff</button>
+        <button class="debug-button" id="mdbAlwaysIdle">Conf: mdb-always-idle</button>
         <label for="commandValue">Enter Command:</label>
         <input type="text" id="commandValue" />
-        <button id="command">Send Command</button>
+        <button class="debug-button" id="command">Send Command</button>
         <div id="output"></div>
       </div>
     </div>

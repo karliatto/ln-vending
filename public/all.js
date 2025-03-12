@@ -279,6 +279,15 @@ buttons.forEach((button) => {
           })
         );
         break;
+      case "enableSniff" :
+        console.log("enableSniff");
+        ws.send(
+          JSON.stringify({
+            type: "command",
+            data: { command: "X,1" },
+          })
+        );
+        break;
       case "command":
         const command = document.getElementById("commandValue").value;
         console.log("Sending command", command);
