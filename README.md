@@ -56,7 +56,7 @@ $ socat -d -d pty,raw,echo=0 pty,raw,echo=0
 
 Depending on the response you have to connect to device `/dev/pts/4` and send messages to `/dev/pts/5` like:
 
-Configure your .env file with:
+Configure your .env file with the line below (be carefull not adding `;` at the end of the line):
 
 ```
 ....

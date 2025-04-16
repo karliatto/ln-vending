@@ -142,7 +142,7 @@
       }
       .debug-button {
         background-color: #ccc;
-        color:#f44336;
+        color: #f44336;
       }
     </style>
   </head>
@@ -213,10 +213,14 @@
         <button class="debug-button" id="enablePeripheralCommand">
           Enable the cashless peripheral (C,1)
         </button>
-        <button class="debug-button" id="startCommand">Start cycle (C,START,0)</button>
+        <button class="debug-button" id="startCommand">
+          Start cycle (C,START,0)
+        </button>
         <button class="debug-button" id="cancelCommand">Stop (C,STOP)</button>
         <button class="debug-button" id="enableSniff">Sniff</button>
-        <button class="debug-button" id="mdbAlwaysIdle">Conf: mdb-always-idle</button>
+        <button class="debug-button" id="mdbAlwaysIdle">
+          Conf: mdb-always-idle
+        </button>
         <label for="commandValue">Enter Command:</label>
         <input type="text" id="commandValue" />
         <button class="debug-button" id="command">Send Command</button>
