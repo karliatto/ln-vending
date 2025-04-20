@@ -90,6 +90,9 @@ const connectWebSocket = () => {
         case "display-success":
           setScreenSuccess();
           break;
+        case "display-start":
+          setScreenStart();
+          break;
         default:
           console.info("Unknown message from server", parsedData);
       }
