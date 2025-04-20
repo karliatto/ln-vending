@@ -69,6 +69,7 @@ const connectWebSocket = () => {
       const parsedData = JSON.parse(data);
       switch (parsedData.type) {
         case "display-instructions":
+          setStartLoading(false);
           setScreenInstructions();
           break;
         case "display-payrequest":
@@ -251,6 +252,7 @@ buttons.forEach((button) => {
     console.log("event.target.id", event.target.id);
     switch (event.target.id) {
       case "startButton":
+        setStartLoading(true);
         sendUiAction(ws, "startButton");
         // setStartLoading(true);
         // // TODO: commenting just for dev
