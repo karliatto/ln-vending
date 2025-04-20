@@ -356,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Check if the Ctrl key is pressed and the D key is pressed
       if (event.ctrlKey && event.key === 'd') {
           event.preventDefault(); // Prevent the default action (bookmarking the page)
-          setVisibleClass("container-debugger");
+          toggleVisibleClass("container-debugger", true);
       }
   });
 });
