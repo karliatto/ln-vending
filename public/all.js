@@ -354,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add a keydown event listener to the document
   document.addEventListener('keydown', (event) => {
       // Check if the Ctrl key is pressed and the D key is pressed
-      if (event.ctrlKey && event.key === 'd') {
+      if (event.ctrlKey && event.shiftKey && event.key === 'y') {
           event.preventDefault(); // Prevent the default action (bookmarking the page)
           toggleVisibleClass("container-debugger", true);
       }
