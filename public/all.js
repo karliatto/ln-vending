@@ -254,31 +254,9 @@ buttons.forEach((button) => {
       case "startButton":
         setStartLoading(true);
         sendUiAction(ws, "startButton");
-        // setStartLoading(true);
-        // // TODO: commenting just for dev
-        // await sendCommand(ws, "C,0");
-        // await new Promise((resolve) => setTimeout(resolve, 3 * 1000));
-        // await sendCommand(ws, "C,1");
-        // await new Promise((resolve) => setTimeout(resolve, 3 * 1000));
-        // // await sendCommand(ws, "C,STOP");
-        // // await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
-        // await sendCommand(ws, "C,VEND,-1");
-        // await new Promise((resolve) => setTimeout(resolve, 3 * 1000));
-        // await sendCommand(ws, "C,START,0");
-        // await new Promise((resolve) => setTimeout(resolve, 500));
-        // setStartLoading(false);
-        // setScreenInstructions();
         break;
       case "cancelPaymentRequest":
         sendUiAction(ws, "cancelPaymentRequest");
-        // console.log("cancelPaymentRequest");
-        // setStartLoading(true);
-        // setScreenStart();
-        // await sendCommand(ws, "C,VEND,-1");
-        // await new Promise((resolve) => setTimeout(resolve, 3 * 1000));
-        // await sendCommand(ws, "C,0");
-        // await new Promise((resolve) => setTimeout(resolve, 3 * 1000));
-        // setStartLoading(false);
         break;
       case "mdbAlwaysIdle":
         console.log("C,SETCONF,mdb-always-idle=0");
