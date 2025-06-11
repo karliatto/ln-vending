@@ -328,15 +328,15 @@ buttons.forEach((button) => {
   });
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.addEventListener('keydown', (event) => {
-      if (event.ctrlKey && event.key === 'y') {
-        event.preventDefault();
-        toggleVisibleClass("container-debugger", true);
-      }
-      if (event.ctrlKey && event.key === 'Y') {
-        event.preventDefault();
-        toggleVisibleClass("container-debugger", false);
-      }
+document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("keydown", (event) => {
+    if (event.ctrlKey && event.key === "y") {
+      event.preventDefault();
+      toggleVisibleClass("container-debugger", true);
+    }
+    if (event.ctrlKey && event.key === "Y") {
+      event.preventDefault();
+      toggleVisibleClass("container-debugger", false);
+    }
   });
 });
