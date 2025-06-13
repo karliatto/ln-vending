@@ -98,32 +98,6 @@ const connectWebSocket = () => {
           console.info("Unknown message from server", parsedData);
           appendMessage(parsedData.data);
       }
-      // if (parsedData.type === "statusVEND") {
-      //   // const { fiatAmount, itemNumber, qrCodeBase64, sat, satDisplay, msat } =
-      //   //   parsedData.data;
-      //   // console.log("fiatAmount", fiatAmount);
-      //   // console.log("itemNumber", itemNumber);
-      //   // console.log("sat", sat);
-      //   // console.log("msat", msat);
-      //   // setScreenPaymentRequest(
-      //   //   qrCodeBase64,
-      //   //   fiatAmount,
-      //   //   satDisplay,
-      //   //   itemNumber,
-      //   // );
-      // } else if (parsedData.type === "successVEND") {
-      //   console.log("success!!");
-      //   setScreenSuccess();
-      //   // After some time clear success screen and go to initial screen.
-      //   await new Promise((resolve) => setTimeout(resolve, 3 * 1000));
-      //   await sendCommand(ws, "C,0");
-      //   await new Promise((resolve) =>
-      //     setTimeout(resolve, timeoutTimeSuccessScreen),
-      //   );
-      //   setScreenStart();
-      // } else if (parsedData.type === "debug") {
-      //   appendMessage(parsedData.data);
-      // }
     } catch (error) {
       console.error(error);
     }
@@ -176,29 +150,9 @@ const setVisibleClass = (visibleClassName) => {
   });
 };
 
-let timeout;
 const setCurrentScreen = (newScreen) => {
-  if (timeout) {
-    clearTimeout(timeout);
-  }
   currentScreen = newScreen;
   console.log("Changed screen to:", currentScreen);
-  switch (newScreen) {
-    case SCREENS.INSTRUCTIONS:
-      timeout = setTimeout(() => {
-        // If user does not select item in instructions screen after some time,
-        // we go to start again.
-        // TODO: maybe do cashless disable instead of C,STOP
-        // ws.send(
-        //   JSON.stringify({
-        //     type: "command",
-        //     data: { command: "C,STOP" },
-        //   })
-        // );
-        setScreenStart();
-      }, timeoutTimeInstructionScreen);
-      break;
-  }
 };
 
 const setScreenStart = () => {
