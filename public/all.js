@@ -47,6 +47,27 @@ function sendUiAction(ws, action) {
   });
 }
 
+const setStartLoading = (isLoading) => {
+  document.getElementById("startButton").textContent = isLoading
+    ? "Loading ..."
+    : "Start";
+  document.getElementById("startButton").style.backgroundColor = isLoading
+    ? "#ccc"
+    : "rgb(15 97 72)";
+  document.getElementById("startButton").disabled = isLoading;
+};
+
+const setCancelLoading = (isLoading) => {
+  document.getElementById("cancelPaymentRequest").textContent = isLoading
+    ? "WAIT ..."
+    : "Cancel";
+  document.getElementById("cancelPaymentRequest").style.backgroundColor = isLoading
+    ? "#ccc"
+    : "rgb(15 97 72)";
+  document.getElementById("cancelPaymentRequest").disabled = isLoading;
+}
+
+
 const connectWebSocket = () => {
   ws = new WebSocket(wsUrl);
 
@@ -70,6 +91,7 @@ const connectWebSocket = () => {
       switch (parsedData.type) {
         case "display-instructions":
           setStartLoading(false);
+          setCancelLoading(false);
           setScreenInstructions();
           break;
         case "display-payrequest":
@@ -190,16 +212,6 @@ const setScreenConnecting = () => {
 
 setScreenConnecting();
 
-const setStartLoading = (isLoading) => {
-  document.getElementById("startButton").textContent = isLoading
-    ? "Loading ..."
-    : "Start";
-  document.getElementById("startButton").style.backgroundColor = isLoading
-    ? "#ccc"
-    : "rgb(15 97 72)";
-  document.getElementById("startButton").disabled = isLoading;
-};
-
 const buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
   button.addEventListener("click", async (event) => {
@@ -210,6 +222,7 @@ buttons.forEach((button) => {
         sendUiAction(ws, "startButton");
         break;
       case "cancelPaymentRequest":
+        setCancelLoading(true);
         sendUiAction(ws, "cancelPaymentRequest");
         break;
       case "mdbAlwaysIdle":
