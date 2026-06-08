@@ -16,11 +16,11 @@
 
       h1 {
         color: #333;
-        font-size: 36px;
+        font-size: 45px;
         margin-bottom: 20px;
       }
       p {
-        font-size: 28px;
+        font-size: 35px;
       }
       ol {
         list-style-position: inside;
@@ -28,7 +28,7 @@
       }
       li {
         margin-bottom: 20px;
-        font-size: 28px;
+        font-size: 35px;
       }
       .container-instructions,
       .container-payment-request,
@@ -76,7 +76,7 @@
       }
 
       .container-payment-request.visible p {
-        font-size: large;
+        font-size: larger;
       }
 
       .item-details {
@@ -142,7 +142,7 @@
       }
       .debug-button {
         background-color: #ccc;
-        color:#f44336;
+        color: #f44336;
       }
     </style>
   </head>
@@ -170,7 +170,7 @@
           <p>
             <strong>Model:</strong> <span id="item-model">Trezor Model T</span>
           </p>
-          <p><strong>EUR:</strong> <span id="item-price-fiat"></span></p>
+          <p><strong>CZK:</strong> <span id="item-price-fiat"></span></p>
           <p><strong>sat:</strong> <span id="item-price-sat"></span></p>
         </div>
         <div class="qr-code">QR Code Placeholder</div>
@@ -206,17 +206,21 @@
         </p>
         <img src="./assets/hourglass.png" alt="Hourglass" class="emoji" />
       </div>
-      <div class="container-debugger visible">
+      <div class="container-debugger">
         <button class="debug-button" id="disableCommand">
           Disable the cashless peripheral (C,0)
         </button>
         <button class="debug-button" id="enablePeripheralCommand">
           Enable the cashless peripheral (C,1)
         </button>
-        <button class="debug-button" id="startCommand">Start cycle (C,START,0)</button>
+        <button class="debug-button" id="startCommand">
+          Start cycle (C,START,0)
+        </button>
         <button class="debug-button" id="cancelCommand">Stop (C,STOP)</button>
         <button class="debug-button" id="enableSniff">Sniff</button>
-        <button class="debug-button" id="mdbAlwaysIdle">Conf: mdb-always-idle</button>
+        <button class="debug-button" id="mdbAlwaysIdle">
+          Conf: mdb-always-idle
+        </button>
         <label for="commandValue">Enter Command:</label>
         <input type="text" id="commandValue" />
         <button class="debug-button" id="command">Send Command</button>

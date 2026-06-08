@@ -20,7 +20,7 @@ const SCREENS = {
 };
 
 const classNames = Object.values(SCREENS).map(
-  (screenName) => `container-${screenName}`
+  (screenName) => `container-${screenName}`,
 );
 
 function sendCommand(ws, command) {
@@ -29,11 +29,42 @@ function sendCommand(ws, command) {
       JSON.stringify({
         type: "command",
         data: { command },
-      })
+      }),
     );
     resolve();
   });
 }
+
+function sendUiAction(ws, action) {
+  return new Promise((resolve) => {
+    ws.send(
+      JSON.stringify({
+        type: "ui-action",
+        data: { action },
+      }),
+    );
+    resolve();
+  });
+}
+
+const setStartLoading = (isLoading) => {
+  document.getElementById("startButton").textContent = isLoading
+    ? "Loading ..."
+    : "Start";
+  document.getElementById("startButton").style.backgroundColor = isLoading
+    ? "#ccc"
+    : "rgb(15 97 72)";
+  document.getElementById("startButton").disabled = isLoading;
+};
+
+const setCancelLoading = (isLoading) => {
+  document.getElementById("cancelPaymentRequest").textContent = isLoading
+    ? "WAIT ..."
+    : "Cancel";
+  document.getElementById("cancelPaymentRequest").style.backgroundColor =
+    isLoading ? "#ccc" : "rgb(15 97 72)";
+  document.getElementById("cancelPaymentRequest").disabled = isLoading;
+};
 
 const connectWebSocket = () => {
   ws = new WebSocket(wsUrl);
@@ -55,31 +86,37 @@ const connectWebSocket = () => {
     const { data } = event;
     try {
       const parsedData = JSON.parse(data);
-      if (parsedData.type === "statusVEND") {
-        const { fiatAmount, itemNumber, qrCodeBase64, sat, satDisplay, msat } =
-          parsedData.data;
-        console.log("fiatAmount", fiatAmount);
-        console.log("itemNumber", itemNumber);
-        console.log("sat", sat);
-        console.log("msat", msat);
-        setScreenPaymentRequest(
-          qrCodeBase64,
-          fiatAmount,
-          satDisplay,
-          itemNumber
-        );
-      } else if (parsedData.type === "successVEND") {
-        console.log("success!!");
-        setScreenSuccess();
-        // After some time clear success screen and go to initial screen.
-        await new Promise((resolve) => setTimeout(resolve, 3 * 1000));
-        await sendCommand(ws, "C,0");
-        await new Promise((resolve) =>
-          setTimeout(resolve, timeoutTimeSuccessScreen)
-        );
-        setScreenStart();
-      } else if (parsedData.type === "debug") {
-        appendMessage(parsedData.data);
+      switch (parsedData.type) {
+        case "display-instructions":
+          setStartLoading(false);
+          setCancelLoading(false);
+          setScreenInstructions();
+          break;
+        case "display-payrequest":
+          const {
+            fiatAmount,
+            itemNumber,
+            qrCodeBase64,
+            sat,
+            satDisplay,
+            msat,
+          } = parsedData.data;
+          setScreenPaymentRequest(
+            qrCodeBase64,
+            fiatAmount,
+            satDisplay,
+            itemNumber,
+          );
+          break;
+        case "display-success":
+          setScreenSuccess();
+          break;
+        case "display-start":
+          setScreenStart();
+          break;
+        default:
+          console.info("Unknown message from server", parsedData);
+          appendMessage(parsedData.data);
       }
     } catch (error) {
       console.error(error);
@@ -88,7 +125,7 @@ const connectWebSocket = () => {
 
   ws.onclose = () => {
     appendMessage(
-      "Disconnected from WebSocket server. Attempting to reconnect..."
+      "Disconnected from WebSocket server. Attempting to reconnect...",
     );
     setTimeout(() => {
       connectWebSocket(); // Attempt to reconnect
@@ -133,29 +170,9 @@ const setVisibleClass = (visibleClassName) => {
   });
 };
 
-let timeout;
 const setCurrentScreen = (newScreen) => {
-  if (timeout) {
-    clearTimeout(timeout);
-  }
   currentScreen = newScreen;
   console.log("Changed screen to:", currentScreen);
-  switch (newScreen) {
-    case SCREENS.INSTRUCTIONS:
-      timeout = setTimeout(() => {
-        // If user does not select item in instructions screen after some time,
-        // we go to start again.
-        // TODO: maybe do cashless disable instead of C,STOP
-        // ws.send(
-        //   JSON.stringify({
-        //     type: "command",
-        //     data: { command: "C,STOP" },
-        //   })
-        // );
-        setScreenStart();
-      }, timeoutTimeInstructionScreen);
-      break;
-  }
 };
 
 const setScreenStart = () => {
@@ -193,16 +210,6 @@ const setScreenConnecting = () => {
 
 setScreenConnecting();
 
-const setStartLoading = (isLoading) => {
-  document.getElementById("startButton").textContent = isLoading
-    ? "Loading ..."
-    : "Start";
-  document.getElementById("startButton").style.backgroundColor = isLoading
-    ? "#ccc"
-    : "rgb(15 97 72)";
-  document.getElementById("startButton").disabled = isLoading;
-};
-
 const buttons = document.querySelectorAll("button");
 buttons.forEach((button) => {
   button.addEventListener("click", async (event) => {
@@ -210,29 +217,11 @@ buttons.forEach((button) => {
     switch (event.target.id) {
       case "startButton":
         setStartLoading(true);
-        // TODO: commenting just for dev
-        await sendCommand(ws, "C,0");
-        await new Promise((resolve) => setTimeout(resolve, 3 * 1000));
-        await sendCommand(ws, "C,1");
-        await new Promise((resolve) => setTimeout(resolve, 3 * 1000));
-        // await sendCommand(ws, "C,STOP");
-        // await new Promise((resolve) => setTimeout(resolve, 2 * 1000));
-        await sendCommand(ws, "C,VEND,-1");
-        await new Promise((resolve) => setTimeout(resolve, 3 * 1000));
-        await sendCommand(ws, "C,START,0");
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        setStartLoading(false);
-        setScreenInstructions();
+        sendUiAction(ws, "startButton");
         break;
       case "cancelPaymentRequest":
-        console.log("cancelPaymentRequest");
-        setStartLoading(true);
-        setScreenStart();
-        await sendCommand(ws, "C,VEND,-1");
-        await new Promise((resolve) => setTimeout(resolve, 3 * 1000));
-        await sendCommand(ws, "C,0");
-        await new Promise((resolve) => setTimeout(resolve, 3 * 1000));
-        setStartLoading(false);
+        setCancelLoading(true);
+        sendUiAction(ws, "cancelPaymentRequest");
         break;
       case "mdbAlwaysIdle":
         console.log("C,SETCONF,mdb-always-idle=0");
@@ -240,7 +229,7 @@ buttons.forEach((button) => {
           JSON.stringify({
             type: "command",
             data: { command: "C,SETCONF,mdb-always-idle=1" },
-          })
+          }),
         );
         break;
       case "cancelCommand":
@@ -249,7 +238,7 @@ buttons.forEach((button) => {
           JSON.stringify({
             type: "command",
             data: { command: "C,STOP" },
-          })
+          }),
         );
         break;
       case "disableCommand":
@@ -258,7 +247,7 @@ buttons.forEach((button) => {
           JSON.stringify({
             type: "command",
             data: { command: "C,0" },
-          })
+          }),
         );
         break;
       case "enablePeripheralCommand":
@@ -267,7 +256,7 @@ buttons.forEach((button) => {
           JSON.stringify({
             type: "command",
             data: { command: "C,1" },
-          })
+          }),
         );
         break;
       case "startCommand":
@@ -276,16 +265,16 @@ buttons.forEach((button) => {
           JSON.stringify({
             type: "command",
             data: { command: "C,START,0" },
-          })
+          }),
         );
         break;
-      case "enableSniff" :
+      case "enableSniff":
         console.log("enableSniff");
         ws.send(
           JSON.stringify({
             type: "command",
             data: { command: "X,1" },
-          })
+          }),
         );
         break;
       case "command":
@@ -295,11 +284,24 @@ buttons.forEach((button) => {
           JSON.stringify({
             type: "command",
             data: { command },
-          })
+          }),
         );
         break;
       default:
         console.log("Unknown button clicked.");
+    }
+  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  document.addEventListener("keydown", (event) => {
+    if (event.ctrlKey && event.key === "y") {
+      event.preventDefault();
+      toggleVisibleClass("container-debugger", true);
+    }
+    if (event.ctrlKey && event.key === "Y") {
+      event.preventDefault();
+      toggleVisibleClass("container-debugger", false);
     }
   });
 });
